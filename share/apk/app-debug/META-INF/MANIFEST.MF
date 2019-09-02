@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Built-By: Generated-by-ADT
+Created-By: Android Gradle 3.4.2
+
+Name: AndroidManifest.xml
+SHA1-Digest: 4H//Yk9gWUcCwKwyir/DElI0mJQ=
+
+Name: assets/test.skin
+SHA1-Digest: JB8UK8zJriCh77D6HNwIGJIfNec=
+
+Name: classes.dex
+SHA1-Digest: 3PC84BvqhqaF/fmNyOvdXdr6ppE=
+
+Name: res/drawable-hdpi-v4/test.jpeg
+SHA1-Digest: +EbeHIIwYdsiYxMXSAWq8ahj3Zo=
+
+Name: res/layout/activity_main.xml
+SHA1-Digest: Hu7ErqVGMpcctKE6d4Ms/qWfNFY=
+
+Name: resources.arsc
+SHA1-Digest: UubiaTD+BtGMIsGso+qzlzTaXR4=
+

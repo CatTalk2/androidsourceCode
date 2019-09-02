@@ -1,0 +1,23 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA1-Digest-Manifest: /zunLEE3sfwDWmCwxQLmQoPW5oM=
+X-Android-APK-Signed: 2
+
+Name: AndroidManifest.xml
+SHA1-Digest: RK1fp7viUBrBU68MEf/6f6MiLYs=
+
+Name: assets/test.skin
+SHA1-Digest: g4fec78lQ2gd+DPkXsM6JZGqLbI=
+
+Name: classes.dex
+SHA1-Digest: hJkIzEB8zYIZhY3UsqXTToJNoVo=
+
+Name: res/drawable-hdpi-v4/test.jpeg
+SHA1-Digest: E5T59OTKexDl9eXTzVN7Onj1WEs=
+
+Name: res/layout/activity_main.xml
+SHA1-Digest: +7ZS2jBP7B7+XsShYZf3BO6rufs=
+
+Name: resources.arsc
+SHA1-Digest: ZU5uvG8/yUMLEXuK2nV+6qqct0Y=
+
