@@ -217,6 +217,8 @@ bool isValidResourceType(const String8& type)
         || type == "color" || type == "menu" || type == "mipmap";
 }
 
+
+//TODO: 接卸AaptGroup-->AndroidManifest.xml?
 static status_t parsePackage(Bundle* bundle, const sp<AaptAssets>& assets,
     const sp<AaptGroup>& grp)
 {
@@ -225,8 +227,10 @@ static status_t parsePackage(Bundle* bundle, const sp<AaptAssets>& assets,
                 grp->getFiles().valueAt(0)->getPrintableSource().string());
     }
 
+    //TODO: 拿到AndroidManifest.xml
     sp<AaptFile> file = grp->getFiles().valueAt(0);
 
+    //TODO: 构造XMlTree，解析xml XMLNode.cpp, 赋值给blockResXMLTree
     ResXMLTree block;
     status_t err = parseXMLResource(file, &block);
     if (err != NO_ERROR) {
@@ -260,6 +264,7 @@ static status_t parsePackage(Bundle* bundle, const sp<AaptAssets>& assets,
         return UNKNOWN_ERROR;
     }
 
+    //TODO: 拿出AndroidManifest.xml中的package name
     assets->setPackage(String8(block.getAttributeStringValue(nameIndex, &len)));
 
     ssize_t revisionCodeIndex = block.indexOfAttribute(RESOURCES_ANDROID_NAMESPACE, "revisionCode");
@@ -274,6 +279,7 @@ static status_t parsePackage(Bundle* bundle, const sp<AaptAssets>& assets,
             if (strcmp16(block.getElementName(&len), uses_sdk16.string()) == 0) {
                 ssize_t minSdkIndex = block.indexOfAttribute(RESOURCES_ANDROID_NAMESPACE,
                                                              "minSdkVersion");
+                //TODO: 读取minSdkVersion写入Bundle，name问题来了minSdkVersion，versionCode，versionName啥时候写进xml的
                 if (minSdkIndex >= 0) {
                     const char16_t* minSdk16 = block.getAttributeStringValue(minSdkIndex, &len);
                     const char* minSdk8 = strdup(String8(minSdk16).string());
@@ -290,6 +296,7 @@ static status_t parsePackage(Bundle* bundle, const sp<AaptAssets>& assets,
 // ==========================================================================
 // ==========================================================================
 
+//TODO: makeFileResources， 最终是构造一个Entry添加到table中
 static status_t makeFileResources(Bundle* bundle, const sp<AaptAssets>& assets,
                                   ResourceTable* table,
                                   const sp<ResourceTypeSet>& set,
@@ -322,6 +329,7 @@ static status_t makeFileResources(Bundle* bundle, const sp<AaptAssets>& assets,
         }
         String8 resPath = it.getPath();
         resPath.convertToResPath();
+        //TODO: 注意ResourceTable --- addEntry(pos, packageName ,type , name , path)， 同时会检测外部res.apk中是否已经有这个资源
         status_t result = table->addEntry(SourcePos(it.getPath(), 0),
                         String16(assets->getPackage()),
                         type16,
@@ -332,6 +340,7 @@ static status_t makeFileResources(Bundle* bundle, const sp<AaptAssets>& assets,
         if (result != NO_ERROR) {
             hasErrors = true;
         } else {
+            //TODO: ResourcesTable.mAssets--addResource
             assets->addResource(it.getLeafName(), resPath, it.getFile(), type8);
         }
     }
@@ -389,13 +398,17 @@ static status_t preProcessImages(const Bundle* bundle, const sp<AaptAssets>& ass
     return (hasErrors || (res < NO_ERROR)) ? STATUST(UNKNOWN_ERROR) : NO_ERROR;
 }
 
+
+//TODO: 遍历当前工程目录，收集资源构造resource
 static void collect_files(const sp<AaptDir>& dir,
         KeyedVector<String8, sp<ResourceTypeSet> >* resources)
 {
     const DefaultKeyedVector<String8, sp<AaptGroup> >& groups = dir->getFiles();
     int N = groups.size();
     for (int i=0; i<N; i++) {
+        //TODO: leafName
         const String8& leafName = groups.keyAt(i);
+        //TODO: AaptGroup ? AaptFile, AaptAssets
         const sp<AaptGroup>& group = groups.valueAt(i);
 
         const DefaultKeyedVector<AaptGroupEntry, sp<AaptFile> >& files
@@ -405,8 +418,10 @@ static void collect_files(const sp<AaptDir>& dir,
             continue;
         }
 
+        //TODO: resourceType
         String8 resType = files.valueAt(0)->getResourceType();
 
+        //TODO: 当前type下的index
         ssize_t index = resources->indexOfKey(resType);
 
         if (index < 0) {
@@ -418,6 +433,7 @@ static void collect_files(const sp<AaptDir>& dir,
             set->add(leafName, group);
             resources->add(resType, set);
         } else {
+            //TODO: add leafName -- group
             const sp<ResourceTypeSet>& set = resources->valueAt(index);
             index = set->indexOfKey(leafName);
             if (index < 0) {
@@ -854,6 +870,7 @@ static void massageRoundIconSupport(const String16& iconRef, const String16& rou
   }
 }
 
+//TODO: 添加versionCode等node
 status_t massageManifest(Bundle* bundle, ResourceTable* table, sp<XMLNode> root)
 {
     root = root->searchElement(String16(), String16("manifest"));
@@ -1253,10 +1270,14 @@ status_t generateAndroidManifestForSplit(Bundle* bundle, const sp<AaptAssets>& a
     return NO_ERROR;
 }
 
+
+//TODO: Command--->buildResources
 status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuilder>& builder)
 {
     // First, look for a package file to parse.  This is required to
     // be able to generate the resource information.
+
+    //TODO: AaptGroup 对象检测AndroidManifest.xml
     sp<AaptGroup> androidManifestFile =
             assets->getFiles().valueFor(String8("AndroidManifest.xml"));
     if (androidManifestFile == NULL) {
@@ -1264,6 +1285,7 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         return UNKNOWN_ERROR;
     }
 
+    //TODO: 解析AndroidManifest.xml
     status_t err = parsePackage(bundle, assets, androidManifestFile);
     if (err != NO_ERROR) {
         return err;
@@ -1279,6 +1301,8 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         assets->setSymbolsPrivatePackage(bundle->getPrivateSymbolsPackage());
     }
 
+
+    //TODO: PackageType APP
     ResourceTable::PackageType packageType = ResourceTable::App;
     if (bundle->getBuildSharedLibrary()) {
         packageType = ResourceTable::SharedLibrary;
@@ -1288,7 +1312,11 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         packageType = ResourceTable::AppFeature;
     }
 
+    //ResouceTable这个数据结构
+    //TODO: 构造ResourceTable， 注意传入参数，bundle，String packageName，packageType===> 后续分析ResourceTable
     ResourceTable table(bundle, String16(assets->getPackage()), packageType);
+
+    //TODO: add 引入的资源， 注意传递参数， 最终调用assets->buildIncludedResource，结果是assets中构造出一个持有res.apk的AssetManager
     err = table.addIncludedResources(bundle, assets);
     if (err != NO_ERROR) {
         return err;
@@ -1309,15 +1337,21 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         xmlFlags |= XML_COMPILE_UTF8;
     }
 
+    //TODO: 上面两步，1，解析AndroidManifest.xml 得到包名，根据包名和PackageType构造对应的ResourceTable
+    // 2. 加入引用资源，构造一个AaptAssets中有一个AssetManager持有一个/systmres.apk资源
     // --------------------------------------------------------------
     // First, gather all resource information.
     // --------------------------------------------------------------
 
+    //TODO: 3. 开始收集所有的资源信息，res类型
     // resType -> leafName -> group
     KeyedVector<String8, sp<ResourceTypeSet> > *resources = 
             new KeyedVector<String8, sp<ResourceTypeSet> >;
+
+    //TODO: 收集资源，赋值===> 最终是通过assets的mDirs中进行遍历，不同的type add生成一个map
     collect_files(assets, resources);
 
+    //TODO: 所有的资源类型
     sp<ResourceTypeSet> drawables;
     sp<ResourceTypeSet> layouts;
     sp<ResourceTypeSet> anims;
@@ -1331,6 +1365,7 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
     sp<ResourceTypeSet> mipmaps;
     sp<ResourceTypeSet> fonts;
 
+    //TODO: 宏定义
     ASSIGN_IT(drawable);
     ASSIGN_IT(layout);
     ASSIGN_IT(anim);
@@ -1344,7 +1379,10 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
     ASSIGN_IT(mipmap);
     ASSIGN_IT(font);
 
+    //TODO： assets-->拥有了一个 根据资源type区分的map？ resources
     assets->setResources(resources);
+
+    //TODO: 处理 overLay
     // now go through any resource overlays and collect their files
     sp<AaptAssets> current = assets->getOverlay();
     while(current.get()) {
@@ -1372,11 +1410,14 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
 
     bool hasErrors = false;
 
+    //TODO: 处理drawable文件
     if (drawables != NULL) {
         if (bundle->getOutputAPKFile() != NULL) {
+            //TODO: 预处理图片？提交一个任务队列，对图片进行无损压缩
             err = preProcessImages(bundle, assets, drawables, "drawable");
         }
         if (err == NO_ERROR) {
+            //TODO: 统一处理资源，添加一个Entry到table中，同时创建对应目录
             err = makeFileResources(bundle, assets, &table, drawables, "drawable");
             if (err != NO_ERROR) {
                 hasErrors = true;
@@ -1456,18 +1497,23 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         }
     }
 
-    // compile resources
+
+    //TODO: 4. 上面构造好了ResourceTable和创建好了对应的res目录，构造好了AaptAssets，接下来可以开始编译资源了
+    // compile values
     current = assets;
     while(current.get()) {
         KeyedVector<String8, sp<ResourceTypeSet> > *resources = 
                 current->getResources();
 
+        //TODO: 直接编译values
         ssize_t index = resources->indexOfKey(String8("values"));
         if (index >= 0) {
             ResourceDirIterator it(resources->valueAt(index), String8("values"));
             ssize_t res;
             while ((res=it.next()) == NO_ERROR) {
                 const sp<AaptFile>& file = it.getFile();
+
+                //TODO: 编译资源 ResouceTable.cpp
                 res = compileResourceFile(bundle, assets, file, it.getParams(), 
                                           (current!=assets), &table);
                 if (res != NO_ERROR) {
@@ -1496,17 +1542,21 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         return UNKNOWN_ERROR;
     }
 
+
+    //TODO: 分配id
     // --------------------------------------------------------------------
     // Assignment of resource IDs and initial generation of resource table.
     // --------------------------------------------------------------------
 
     if (table.hasResources()) {
+        //TODO: 生成id
         err = table.assignResourceIds();
         if (err < NO_ERROR) {
             return err;
         }
     }
 
+    //TODO: 编译xml资源
     // --------------------------------------------------------------
     // Finally, we can now we can compile XML files, which may reference
     // resources.
@@ -1749,7 +1799,7 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
     const sp<AaptFile> manifestFile(androidManifestFile->getFiles().valueAt(0));
     String8 manifestPath(manifestFile->getPrintableSource());
 
-    // Generate final compiled manifest file.
+    // TODO：Generate final compiled manifest file. 添加信息节点（versionName、）
     manifestFile->clearData();
     sp<XMLNode> manifestTree = XMLNode::parse(manifestFile);
     if (manifestTree == NULL) {
@@ -1759,6 +1809,8 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
     if (err < NO_ERROR) {
         return err;
     }
+
+    //TODO:
     err = compileXmlFile(bundle, assets, String16(), manifestTree, manifestFile, &table);
     if (err < NO_ERROR) {
         return err;
@@ -1771,6 +1823,8 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
     //block.restart();
     //printXMLBlock(&block);
 
+
+    //TODO:
     // --------------------------------------------------------------
     // Generate the final resource table.
     // Re-flatten because we may have added new resource IDs
@@ -1781,6 +1835,8 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
     sp<AaptFile> resFile;
     
     if (table.hasResources()) {
+
+        //TODO: 添加R.java中的symbols
         sp<AaptSymbols> symbols = assets->getSymbolsFor(String8("R"));
         err = table.addSymbols(symbols, bundle->getSkipSymbolsWithoutDefaultLocalization());
         if (err < NO_ERROR) {
@@ -1794,12 +1850,15 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
             table.getDensityVaryingResources(densityVaryingResources);
         }
 
+        //TODO： 生成resouces.arsc
         Vector<sp<ApkSplit> >& splits = builder->getSplits();
         const size_t numSplits = splits.size();
         for (size_t i = 0; i < numSplits; i++) {
             sp<ApkSplit>& split = splits.editItemAt(i);
+            Chunk
             sp<AaptFile> flattenedTable = new AaptFile(String8("resources.arsc"),
                     AaptGroupEntry(), String8());
+            //TODO: ResourceTable: 压缩
             err = table.flatten(bundle, split->getResourceFilter(),
                     flattenedTable, split->isBase());
             if (err != NO_ERROR) {
@@ -1809,6 +1868,7 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
             }
             split->addEntry(String8("resources.arsc"), flattenedTable);
 
+            //TODO:
             if (split->isBase()) {
                 resFile = flattenedTable;
                 err = finalResTable.add(flattenedTable->getData(), flattenedTable->getSize());
@@ -1887,6 +1947,7 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
             }
         }
 
+        //TODO：写入文件
         if (bundle->getPublicOutputFile()) {
             FILE* fp = fopen(bundle->getPublicOutputFile(), "w+");
             if (fp == NULL) {
@@ -1907,6 +1968,7 @@ status_t buildResources(Bundle* bundle, const sp<AaptAssets>& assets, sp<ApkBuil
         }
     }
 
+    //TODO:
     // Perform a basic validation of the manifest file.  This time we
     // parse it with the comments intact, so that we can use them to
     // generate java docs...  so we are not going to write this one

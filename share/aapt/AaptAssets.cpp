@@ -15,6 +15,7 @@
 #include <dirent.h>
 #include <errno.h>
 
+//TODO: 资源常量
 static const char* kAssetDir = "assets";
 static const char* kResourceDir = "res";
 static const char* kValuesDir = "values";
@@ -880,7 +881,7 @@ status_t AaptSymbols::applyJavaSymbols(const sp<AaptSymbols>& javaSymbols)
 // =========================================================================
 // =========================================================================
 // =========================================================================
-
+//TODO: 继承自AaptDir
 AaptAssets::AaptAssets()
     : AaptDir(String8(), String8()),
       mHavePrivateSymbols(false),
@@ -952,6 +953,7 @@ sp<AaptFile> AaptAssets::addFile(
     return file;
 }
 
+//TODO: 创建文件夹： res/layout/
 void AaptAssets::addResource(const String8& leafName, const String8& path,
                 const sp<AaptFile>& file, const String8& resType)
 {
@@ -1487,6 +1489,7 @@ sp<AaptSymbols> AaptAssets::getJavaSymbolsFor(const String8& name)
     return sym;
 }
 
+//TODO: apply
 status_t AaptAssets::applyJavaSymbols()
 {
     size_t N = mJavaSymbols.size();
@@ -1519,6 +1522,8 @@ bool AaptAssets::isJavaSymbol(const AaptSymbolEntry& sym, bool includePrivate) c
     return false;
 }
 
+
+//TODO: 加入引用资源
 status_t AaptAssets::buildIncludedResources(Bundle* bundle)
 {
     if (mHaveIncludedAssets) {
@@ -1526,6 +1531,7 @@ status_t AaptAssets::buildIncludedResources(Bundle* bundle)
     }
 
     // Add in all includes.
+    //TODO: Main.cpp command中 -I addPackageInclude
     const Vector<String8>& includes = bundle->getPackageIncludes();
     const size_t packageIncludeCount = includes.size();
     for (size_t i = 0; i < packageIncludeCount; i++) {
@@ -1533,6 +1539,7 @@ status_t AaptAssets::buildIncludedResources(Bundle* bundle)
             printf("Including resources from package: %s\n", includes[i].string());
         }
 
+        //TODO: AssetManager.cpp addAssetPath() framework/res.apk?, 意思是mIncludedAssets后续肯定有用
         if (!mIncludedAssets.addAssetPath(includes[i], NULL)) {
             fprintf(stderr, "ERROR: Asset package include '%s' not found.\n",
                     includes[i].string());
@@ -1566,11 +1573,14 @@ status_t AaptAssets::addIncludedResources(const sp<AaptFile>& file)
     return const_cast<ResTable&>(res).add(file->getData(), file->getSize());
 }
 
+
+//TODO: get，返回一个ResTable
 const ResTable& AaptAssets::getIncludedResources() const
 {
     return mIncludedAssets.getResources(false);
 }
 
+//TODO: get，mIncludedAssets
 AssetManager& AaptAssets::getAssetManager()
 {
     return mIncludedAssets;

@@ -777,6 +777,7 @@ status_t parseAndAddEntry(Bundle* bundle,
     return err;
 }
 
+//TODO: 编译资源文件
 status_t compileResourceFile(Bundle* bundle,
                              const sp<AaptAssets>& assets,
                              const sp<AaptFile>& in,
@@ -785,6 +786,8 @@ status_t compileResourceFile(Bundle* bundle,
                              ResourceTable* outTable)
 {
     ResXMLTree block;
+
+    //TODO： 解析xml，得到block
     status_t err = parseXMLResource(in, &block, false, true);
     if (err != NO_ERROR) {
         return err;
@@ -798,6 +801,7 @@ status_t compileResourceFile(Bundle* bundle,
     const String16 attr16("attr");
 
     // Data creation organizational tags.
+    //TODO: 值
     const String16 string16("string");
     const String16 drawable16("drawable");
     const String16 color16("color");
@@ -1759,6 +1763,8 @@ status_t compileResourceFile(Bundle* bundle,
     return hasErrors ? STATUST(UNKNOWN_ERROR) : NO_ERROR;
 }
 
+
+//TODO: packageID , 注意传入参数
 ResourceTable::ResourceTable(Bundle* bundle, const String16& assetsPackage, ResourceTable::PackageType type)
     : mAssetsPackage(assetsPackage)
     , mPackageType(type)
@@ -1785,6 +1791,8 @@ ResourceTable::ResourceTable(Bundle* bundle, const String16& assetsPackage, Reso
             assert(0);
             break;
     }
+
+    //TODO：构造传入packageId
     sp<Package> package = new Package(mAssetsPackage, packageId);
     mPackages.add(assetsPackage, package);
     mOrderedPackages.add(package);
@@ -1804,6 +1812,8 @@ static uint32_t findLargestTypeIdForPackage(const ResTable& table, const String1
     return 0;
 }
 
+
+//TODO: add 引用资源
 status_t ResourceTable::addIncludedResources(Bundle* bundle, const sp<AaptAssets>& assets)
 {
     status_t err = assets->buildIncludedResources(bundle);
@@ -1811,6 +1821,7 @@ status_t ResourceTable::addIncludedResources(Bundle* bundle, const sp<AaptAssets
         return err;
     }
 
+    //TODO: 注意，这里直接引用了assets
     mAssets = assets;
     mTypeIdOffset = findLargestTypeIdForPackage(assets->getIncludedResources(), mAssetsPackage);
 
@@ -1855,6 +1866,8 @@ status_t ResourceTable::addPublic(const SourcePos& sourcePos,
     return t->addPublic(sourcePos, name, ident);
 }
 
+
+//TODO: addEntry,
 status_t ResourceTable::addEntry(const SourcePos& sourcePos,
                                  const String16& package,
                                  const String16& type,
@@ -1866,6 +1879,8 @@ status_t ResourceTable::addEntry(const SourcePos& sourcePos,
                                  const int32_t format,
                                  const bool overwrite)
 {
+
+    //TODO: 注意，添加一个资源的时候，发现AssetManager的res.apk中已经定义过，就会抛出异常
     uint32_t rid = mAssets->getIncludedResources()
         .identifierForName(name.string(), name.size(),
                            type.string(), type.size(),
@@ -1875,7 +1890,8 @@ status_t ResourceTable::addEntry(const SourcePos& sourcePos,
                 String8(type).string(), String8(name).string(), String8(package).string());
         return UNKNOWN_ERROR;
     }
-    
+
+    //TODO: 得到一个Entry
     sp<Entry> e = getEntry(package, type, name, sourcePos, overwrite,
                            params, doSetIndex);
     if (e == NULL) {
@@ -2184,6 +2200,7 @@ bool ResourceTable::hasResources() const {
     return mNumLocal > 0;
 }
 
+//TODO: flatten: 压平
 sp<AaptFile> ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& filter,
         const bool isBase)
 {
@@ -2192,10 +2209,13 @@ sp<AaptFile> ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilte
     return err == NO_ERROR ? data : NULL;
 }
 
+
+//TODO: 传入package ，type， nameId
 inline uint32_t ResourceTable::getResId(const sp<Package>& p,
                                         const sp<Type>& t,
                                         uint32_t nameId)
 {
+    //TODO: Package, getAssignedId()
     return makeResId(p->getAssignedId(), t->getIndex(), nameId);
 }
 
@@ -2576,6 +2596,8 @@ bool ResourceTable::getAttributeFlags(
     return false;
 }
 
+
+//TODO: 生成resource id
 status_t ResourceTable::assignResourceIds()
 {
     const size_t N = mOrderedPackages.size();
@@ -2601,6 +2623,7 @@ status_t ResourceTable::assignResourceIds()
         }
 
         // Generate attributes...
+        //TODO: type
         const size_t N = p->getOrderedTypes().size();
         size_t ti;
         for (ti=0; ti<N; ti++) {
@@ -2614,6 +2637,8 @@ status_t ResourceTable::assignResourceIds()
                 if (c == NULL) {
                     continue;
                 }
+
+                //TODO: entry
                 const size_t N = c->getEntries().size();
                 for (size_t ei=0; ei<N; ei++) {
                     sp<Entry> e = c->getEntries().valueAt(ei);
@@ -2674,6 +2699,7 @@ status_t ResourceTable::assignResourceIds()
 
 
         // Assign resource IDs to keys in bags...
+        //TODO: assign resource ids
         for (size_t ti = 0; ti < typeCount; ti++) {
             sp<Type> t = p->getOrderedTypes().itemAt(ti);
             if (t == NULL) {
@@ -2693,6 +2719,8 @@ status_t ResourceTable::assignResourceIds()
                     if (e == NULL) {
                         continue;
                     }
+
+                    //TODO: 生成id
                     status_t err = e->assignResourceIds(this, p->getName());
                     if (err != NO_ERROR && firstError == NO_ERROR) {
                         firstError = err;
@@ -2704,6 +2732,7 @@ status_t ResourceTable::assignResourceIds()
     return firstError;
 }
 
+//TODO:
 status_t ResourceTable::addSymbols(const sp<AaptSymbols>& outSymbols,
         bool skipSymbolsWithoutDefaultLocalization) {
     const size_t N = mOrderedPackages.size();
@@ -2876,6 +2905,8 @@ ResourceTable::validateLocalizations(void)
     return err;
 }
 
+
+//TODO: 压平文件，这个很复杂，后续分析
 status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& filter,
         const sp<AaptFile>& dest,
         const bool isBase)
@@ -2893,6 +2924,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
     Vector<sp<Package> > libraryPackages;
     const ResTable& table = mAssets->getIncludedResources();
     const size_t basePackageCount = table.getBasePackageCount();
+    //TODO: packageId
     for (size_t i = 0; i < basePackageCount; i++) {
         size_t packageId = table.getBasePackageId(i);
         String16 packageName(table.getBasePackageName(i));
@@ -2902,6 +2934,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
         }
     }
 
+    //TODO: 常量池
     // Iterate through all data, collecting all values (strings,
     // references, etc).
     StringPool valueStrings(useUTF8);
@@ -3609,6 +3642,8 @@ status_t ResourceTable::Entry::emptyBag(const SourcePos& sourcePos)
     return NO_ERROR;
 }
 
+
+//TODO: generate attributes
 status_t ResourceTable::Entry::generateAttributes(ResourceTable* table,
                                                   const String16& package)
 {
@@ -3657,6 +3692,8 @@ status_t ResourceTable::Entry::generateAttributes(ResourceTable* table,
     return NO_ERROR;
 }
 
+
+//TODO: 分配ID Bag？
 status_t ResourceTable::Entry::assignResourceIds(ResourceTable* table,
                                                  const String16& /* package */)
 {
@@ -3680,6 +3717,7 @@ status_t ResourceTable::Entry::assignResourceIds(ResourceTable* table,
         for (size_t i=0; i<N; i++) {
             const String16& key = mBag.keyAt(i);
             Item& it = mBag.editValueAt(i);
+
             it.bagKeyId = table->getResId(key,
                     it.isId ? &id16 : &attr16, NULL, &errorMsg);
             //printf("Bag key of %s: #%08x\n", String8(key).string(), it.bagKeyId);

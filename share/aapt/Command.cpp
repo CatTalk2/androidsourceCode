@@ -2558,11 +2558,15 @@ static String8 buildApkName(const String8& original, const sp<ApkSplit>& split) 
 /*
  * Package up an asset directory and associated application files.
  */
+
+//TODO: 传入Bundle，完成asset资源的打包和相关资源的编译
 int doPackage(Bundle* bundle)
 {
     const char* outputAPKFile;
     int retVal = 1;
     status_t err;
+
+    //TODO: AaptAssets.cpp, 稍后分析
     sp<AaptAssets> assets;
     int N;
     FILE* fp;
@@ -2570,6 +2574,7 @@ int doPackage(Bundle* bundle)
     sp<ApkBuilder> builder;
 
     // -c en_XA or/and ar_XB means do pseudolocalization
+    //TODO: configFilter
     sp<WeakResourceFilter> configFilter = new WeakResourceFilter();
     err = configFilter->parse(bundle->getConfigurations());
     if (err != NO_ERROR) {
@@ -2589,6 +2594,7 @@ int doPackage(Bundle* bundle)
         goto bail;
     }
 
+    //TODO:
     outputAPKFile = bundle->getOutputAPKFile();
 
     // Make sure the filenames provided exist and are of the appropriate type.
@@ -2604,6 +2610,7 @@ int doPackage(Bundle* bundle)
     }
 
     // Load the assets.
+    //TODO: 构造一个AaptAssets对象
     assets = new AaptAssets();
 
     // Set up the resource gathering in assets if we're going to generate
@@ -2629,6 +2636,7 @@ int doPackage(Bundle* bundle)
     // Create the ApkBuilder, which will collect the compiled files
     // to write to the final APK (or sets of APKs if we are building
     // a Split APK.
+    //TODO: 构建一个ApkBuilder对象，用于手机用于编译的文件
     builder = new ApkBuilder(configFilter);
 
     // If we are generating a Split APK, find out which configurations to split on.
@@ -2651,6 +2659,7 @@ int doPackage(Bundle* bundle)
 
     // If they asked for any fileAs that need to be compiled, do so.
     if (bundle->getResourceSourceDirs().size() || bundle->getAndroidManifestFile()) {
+        //TODO: 编译资源，Resource.cpp --- 传入对象，bundle， assets， builder
         err = buildResources(bundle, assets, builder);
         if (err != 0) {
             goto bail;
@@ -2664,6 +2673,7 @@ int doPackage(Bundle* bundle)
     }
 
     // Update symbols with information about which ones are needed as Java symbols.
+    //TODO: 更新Java符号？ 为R.java生成做准备
     assets->applyJavaSymbols();
     if (SourcePos::hasErrors()) {
         goto bail;
@@ -2690,6 +2700,7 @@ int doPackage(Bundle* bundle)
     }
 
     // Write out R.java constants
+    //TODO: Write R.java
     if (!assets->havePrivateSymbols()) {
         if (bundle->getCustomPackage() == NULL) {
             // Write the R.java file into the appropriate class directory
@@ -2733,7 +2744,7 @@ int doPackage(Bundle* bundle)
         }
     }
 
-    // Write out the ProGuard file
+    // TODO：Write out the ProGuard file
     err = writeProguardFile(bundle, assets);
     if (err < 0) {
         goto bail;
@@ -2745,7 +2756,7 @@ int doPackage(Bundle* bundle)
         goto bail;
     }
 
-    // Write the apk
+    // TODO：Write the apk
     if (outputAPKFile) {
         // Gather all resources and add them to the APK Builder. The builder will then
         // figure out which Split they belong in.
@@ -2777,9 +2788,12 @@ int doPackage(Bundle* bundle)
         fp = fopen(dependencyFile, "a+");
         fprintf(fp, " : ");
         bool includeRaw = (outputAPKFile != NULL);
+        //TODO: write resources.arsc
         err = writeDependencyPreReqs(bundle, assets, fp, includeRaw);
         // Also manually add the AndroidManifeset since it's not under res/ or assets/
         // and therefore was not added to our pathstores during slurping
+
+        //TODO: write AndroidManifest.xml
         fprintf(fp, "%s \\\n", bundle->getAndroidManifestFile());
         fclose(fp);
     }

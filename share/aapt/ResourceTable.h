@@ -92,6 +92,7 @@ class ResourceTable : public ResTable::Accessor
 {
 public:
     // The type of package to build.
+    //TODO: app vs appFeature
     enum PackageType {
         App,
         System,
@@ -138,6 +139,7 @@ public:
                        const String16& name,
                        const uint32_t ident);
 
+    //TODO: pos, package, type, name , value
     status_t addEntry(const SourcePos& pos,
                       const String16& package,
                       const String16& type,
@@ -221,10 +223,12 @@ public:
     sp<AaptFile> flatten(Bundle* bundle, const sp<const ResourceFilter>& filter,
             const bool isBase);
 
+    //TODO: id，0xPPTTEEEE
     static inline uint32_t makeResId(uint32_t packageId,
                                      uint32_t typeId,
                                      uint32_t nameId)
     {
+        //packageid typeid indexid
         return nameId | (typeId<<16) | (packageId<<24);
     }
 
@@ -540,6 +544,7 @@ public:
                          const SourcePos& pos,
                          bool doSetIndex = false);
 
+        //TODO: return mPackageId ==> ResouceTable.cpp构造
         size_t getAssignedId() const { return mPackageId; }
 
         const ResStringPool& getTypeStrings() const { return mTypeStrings; }

@@ -57,6 +57,10 @@ void convertPath(char *path) {
 /*
  * Print usage info.
  */
+
+//TODO: aapt命令使用详解！！！
+//TODO:
+//TODO:
 void usage(void)
 {
     fprintf(stderr, "Android Asset Packaging Tool\n\n");
@@ -263,6 +267,7 @@ int handleCommand(Bundle* bundle)
     case kCommandDump:         return doDump(bundle);
     case kCommandAdd:          return doAdd(bundle);
     case kCommandRemove:       return doRemove(bundle);
+    //TODO: package: Command.cpp
     case kCommandPackage:      return doPackage(bundle);
     case kCommandCrunch:       return doCrunch(bundle);
     case kCommandSingleCrunch: return doSingleCrunch(bundle);
@@ -276,7 +281,8 @@ int handleCommand(Bundle* bundle)
 /*
  * Parse args.
  */
-//TODO: 传入：aapt -- package -v xxxx
+//TODO: 传入：aapt -- package -v xxxx -f -I /xxxxx/
+//TODO: 模拟一个完整的打包命令
 int main(int argc, char* const argv[])
 {
     char *prog = argv[0];
@@ -432,7 +438,9 @@ int main(int argc, char* const argv[])
                     wantUsage = true;
                     goto bail;
                 }
+                /system/framework/framework-res.apk
                 convertPath(argv[0]);
+                //TODO: addPackageInclude
                 bundle.addPackageInclude(argv[0]);
                 break;
             case 'F':
@@ -444,6 +452,7 @@ int main(int argc, char* const argv[])
                     goto bail;
                 }
                 convertPath(argv[0]);
+                //TODO: set out put apkfile
                 bundle.setOutputAPKFile(argv[0]);
                 break;
             case 'J':
@@ -761,6 +770,7 @@ int main(int argc, char* const argv[])
      */
     bundle.setFileSpec(argv, argc);
 
+    //TODO: handleCommand
     result = handleCommand(&bundle);
 
 bail:

@@ -9,7 +9,23 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce02af85-2118-4b2a-9f91-83847600a815" name="Default Changelist" comment="" />
+    <list default="true" id="ce02af85-2118-4b2a-9f91-83847600a815" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../ResourceDemo/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../aapt/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ResourceDemo/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../ResourceDemo/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ResourceDemo/app/src/main/java/com/debugcat/resourcedemo/AndroidBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ResourceDemo/app/src/main/java/com/debugcat/resourcedemo/AndroidBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AaptAssets.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/AaptAssets.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AaptAssets.h" beforeDir="false" afterPath="$PROJECT_DIR$/AaptAssets.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Command.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Command.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Images.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resource.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Resource.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceTable.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceTable.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceTable.h" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceTable.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XMLNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/XMLNode.cpp" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +35,28 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectId" id="1PdqgMWj8lYRsOimqwsJyu3Ae5a" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -30,6 +65,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -57,10 +93,26 @@
       <workItem from="1567351256697" duration="118000" />
       <workItem from="1567351657572" duration="10000" />
       <workItem from="1567352118163" duration="204000" />
+      <workItem from="1567408650799" duration="812000" />
+      <workItem from="1567409601855" duration="8262000" />
+      <workItem from="1567511621268" duration="2684000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

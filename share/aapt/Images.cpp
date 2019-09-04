@@ -1354,6 +1354,8 @@ static bool write_png_protected(png_structp write_ptr, String8& printableName, p
     return true;
 }
 
+
+//TODO: 非png图片压缩颜色通道？？
 status_t preProcessImage(const Bundle* bundle, const sp<AaptAssets>& /* assets */,
                          const sp<AaptFile>& file, String8* /* outNewLeafName */)
 {

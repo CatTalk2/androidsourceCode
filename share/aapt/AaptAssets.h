@@ -238,6 +238,8 @@ private:
  * A single directory of assets, which can contain files and other
  * sub-directories.
  */
+
+//TODO: 包含一个resDIr
 class AaptDir : public RefBase
 {
 public:

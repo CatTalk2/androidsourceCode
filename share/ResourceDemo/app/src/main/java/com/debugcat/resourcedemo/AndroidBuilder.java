@@ -927,7 +927,7 @@ public class AndroidBuilder {
 
         //TODO: 创建命令
         ArrayList<String> command = Lists.newArrayList();
-        //TODO：= findAAPT
+        //TODO：= findAAPT: sdk aapt
         String aapt = buildToolInfo.getPath(BuildToolInfo.PathId.AAPT);
         if (aapt == null || !new File(aapt).isFile()) {
             throw new IllegalStateException("aapt is missing");
@@ -1026,6 +1026,7 @@ public class AndroidBuilder {
             command.add("--output-text-symbols");
             command.add(symbolOutputDir);
         }
+        //
         mCmdLineRunner.runCmdLine(command, null);
         // now if the project has libraries, R needs to be created for each libraries,
         // but only if the current project is not a library.

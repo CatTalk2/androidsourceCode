@@ -551,6 +551,8 @@ void printXMLBlock(ResXMLTree* block)
     block->restart();
 }
 
+
+//TODO: 解析xml source
 status_t parseXMLResource(const sp<AaptFile>& file, ResXMLTree* outTree,
                           bool stripAll, bool keepComments,
                           const char** cDataTags)
