@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+configurations {
+    lintJarOutput
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.tools.lint:lint-api:26.5.0'
+    implementation 'com.android.tools.lint:lint-checks:26.5.0'
+
+    lintJarOutput files(jar)
+}
+
+jar {
+    manifest {
+        attributes("Lint-Registry": "com.debugcat.watchcatlint.WatchCatIssueRegistry")
+        print("--------------执行了-------------------")
+    }
+}
+
+defaultTasks 'assemble'
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

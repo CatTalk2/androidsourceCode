@@ -9,23 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce02af85-2118-4b2a-9f91-83847600a815" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../ResourceDemo/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../aapt/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ResourceDemo/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../ResourceDemo/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ResourceDemo/app/src/main/java/com/debugcat/resourcedemo/AndroidBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ResourceDemo/app/src/main/java/com/debugcat/resourcedemo/AndroidBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AaptAssets.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/AaptAssets.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AaptAssets.h" beforeDir="false" afterPath="$PROJECT_DIR$/AaptAssets.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Command.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Command.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Images.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resource.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Resource.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceTable.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceTable.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceTable.h" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceTable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XMLNode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/XMLNode.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="ce02af85-2118-4b2a-9f91-83847600a815" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +80,7 @@
       <workItem from="1567408650799" duration="812000" />
       <workItem from="1567409601855" duration="8262000" />
       <workItem from="1567511621268" duration="2684000" />
+      <workItem from="1567608035721" duration="551000" />
     </task>
     <servers />
   </component>
